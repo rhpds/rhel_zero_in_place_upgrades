@@ -1,51 +1,107 @@
-= {lab_name}
+== What is Leapp?
 
-The `lab_name` var, known as an asciidoc attribute, above was set in `./content/antora.yml` and can be used to set the lab_name or title of your content.
-You are both free to change its value and if you prefer to use a different var name, you can change the value of `lab_name`, for example to `title` in `./content/antora.yml` and then reference it in your content as `\{title}`.
-me
+Red Hat’s leapp tool provides existing Red Hat Enterprise Linux 7 and 8
+instances to an upgrade path from one major version to the next. This
+can be done on a one-to-one basis or en mass with a tool like Satellite.
+The Leapp tooling also includes a pre-upgrade assistant that makes it
+easy to identify breaking changes or warn about potential issues before
+any lasting changes are made to the system.
 
-== Variables
+Before diving in, the question you have to ask is: is this workload
+worth executing a rebuild from scratch? That process can be tedious and
+time consuming. Doing an in-place upgrade retains the subscription,
+installed packages, user data, and configurations all while saving the
+time and resources required to deploy fresh.
 
-Other vars can also be set there, such as `ssh_user` and `ssh_password`, and referenced inline in the lab content by using the `\{foo}` syntax.
+== Installing Leapp
 
-This is another var, or asciidoc attribute, from `./content/antora.yml` {my_var}
+To get started, it is highly recommended that you update all packages on
+your system to the latest version available. (Note: for this lab,
+updates have already been run for you.)
 
-== Writing your lab
+Leapp is a supported operation for RHEL which means support tickets can
+be opened in case obstacles are encountered. It also means that the
+leapp utility is available straight from the Red Hat package repository.
+First, verify the version of Red Hat Enterprise Linux that you have
+installed:
 
-Whatever type of content you are writing we'll refer to your *content* as "your lab" in this document.
-
-=== Lab structure
-
-
-Wether you are writing a lab
-
-* First, we will build a monolithic application already compiled as RPM packages and put it into a container. This will allow us to deploy the application, copy it between machines, and update it separately from the operating system. This process affords us a portable and easily maintained component instead of tightly coupling the application with your operating system maintenance.
-
-* In closing we will build a second container on a different operating system version that makes an application not packaged into RPMs. This will be similar to a web application deployment, positioning the correct files at the right locations. To do this, we will pull a project from GitHub and position the component files within our container image. The purpose of this is to achieve a portable application container that can deploy on several different versions of Red Hat Enterprise Linux. This also provides the benefit of decoupling your application maintenance, which would all happen by building new containers versus operating system maintenance. The container is no longer reliant on the operating system installed on the machine where the application is deployed.
-
-
-. Now let's examine this cluster a bit more by describing the cluster (the `$GUID` environment variable is already set for you so you can immediately describe your individual cluster):
-+
-[source,sh,role=execute]
+[source,bash]
 ----
-podman ps
-----
-+
-.Sample Output
-[source,texinfo,subs="attributes"]
-----
-CONTAINER ID  IMAGE                        COMMAND           CREATED      STATUS      PORTS                 NAMES
-2dcfee9e50c4  docker.io/library/httpd:2.4  httpd-foreground  3 hours ago  Up 3 hours  0.0.0.0:8080->80/tcp  showroom-httpd
+cat /etc/redhat-release
 ----
 
+[source,bash]
+----
+# cat /etc/redhat-release
+Red Hat Enterprise Linux release 7.9 (Maipo)
+----
 
+Since future versions of RHEL disable SSH login for root by default, it
+is important to start retraining yourself to connect via a user account,
+such as the `+rhel+` account you’re currently using, then utilizing
+`+sudo+` or `+su+` to gain administrative privaledges. To simplify your
+experience, become the root user now:
 
+[source,bash]
+----
+sudo -i
+----
 
+[source,bash]
+----
+$ sudo -i
+#
+----
 
+First, you need to enable the rhel-7-server repositories using the
+subscription-manager command: >**Pro Tip:** See how you can actually
+combine these two operations into one!
 
+[source,bash]
+----
+subscription-manager repos --enable rhel-7-server-rpms --enable rhel-7-server-extras-rpms
+----
 
+[source,bash]
+----
+# subscription-manager repos --enable rhel-7-server-rpms --enable rhel-7-server-extras-rpms
+Repository 'rhel-7-server-rpms' is enabled for this system.
+Repository 'rhel-7-server-extras-rpms' is enabled for this system.
+----
 
-=== Lab Access
+Next, use the DNF package manager to install leapp and its dependencies:
 
-The terminal window to your right is *already* logged into the lab environment as the `{ssh_user}` user via `ssh`. 
-All steps of this lab are to be completed as the `{ssh_user}` user.
+[source,bash]
+----
+dnf install -y leapp-upgrade
+----
+
+[source,bash]
+----
+# dnf install -y leapp-upgrade
+# dnf install -y leapp-upgrade
+Red Hat Enterprise Linux 7 Server - Extras (RPMs)                                                                                                                                                      0.0  B/s |   0  B     00:00
+Red Hat Enterprise Linux 7 Server (RPMs)                                                                                                                                                               0.0  B/s |   0  B     00:00
+Dependencies resolved.
+
+... output truncated ...
+
+Installed:
+  leapp-upgrade-el7toel8-0.18.0-1.el7_9.noarch leapp-deps-0.15.1-1.el7_9.noarch     leapp-0.15.1-1.el7_9.noarch  python2-leapp-0.15.1-1.el7_9.noarch  leapp-upgrade-el7toel8-deps-0.18.0-1.el7_9.noarch python-IPy-0.75-6.el7.noarch
+  setools-libs-3.3.8-4.el7.x86_64              libsemanage-python-2.5-14.el7.x86_64 checkpolicy-2.5-8.el7.x86_64 audit-libs-python-2.8.5-4.el7.x86_64 policycoreutils-python-2.5-34.el7.x86_64
+
+Complete!
+----
+
+Verify the install was successful:
+
+[source,bash]
+----
+leapp --version
+----
+
+[source,bash]
+----
+# leapp --version
+leapp version 0.15.1
+----
