@@ -25,12 +25,12 @@ leapp utility is available straight from the Red Hat package repository.
 First, verify the version of Red Hat Enterprise Linux that you have
 installed:
 
-[source,bash]
+[source,bash,subs="+macros,+attributes",role=execute]
 ----
 cat /etc/redhat-release
 ----
 
-[source,bash]
+[source,text]
 ----
 # cat /etc/redhat-release
 Red Hat Enterprise Linux release 7.9 (Maipo)
@@ -42,12 +42,12 @@ such as the `+rhel+` account you’re currently using, then utilizing
 `+sudo+` or `+su+` to gain administrative privaledges. To simplify your
 experience, become the root user now:
 
-[source,bash]
+[source,bash,subs="+macros,+attributes",role=execute]
 ----
 sudo -i
 ----
 
-[source,bash]
+[source,text]
 ----
 $ sudo -i
 #
@@ -57,12 +57,12 @@ First, you need to enable the rhel-7-server repositories using the
 subscription-manager command: >**Pro Tip:** See how you can actually
 combine these two operations into one!
 
-[source,bash]
+[source,bash,subs="+macros,+attributes",role=execute]
 ----
 subscription-manager repos --enable rhel-7-server-rpms --enable rhel-7-server-extras-rpms
 ----
 
-[source,bash]
+[source,text]
 ----
 # subscription-manager repos --enable rhel-7-server-rpms --enable rhel-7-server-extras-rpms
 Repository 'rhel-7-server-rpms' is enabled for this system.
@@ -71,12 +71,12 @@ Repository 'rhel-7-server-extras-rpms' is enabled for this system.
 
 Next, use the DNF package manager to install leapp and its dependencies:
 
-[source,bash]
+[source,bash,subs="+macros,+attributes",role=execute]
 ----
 dnf install -y leapp-upgrade
 ----
 
-[source,bash]
+[source,text]
 ----
 # dnf install -y leapp-upgrade
 # dnf install -y leapp-upgrade
@@ -95,12 +95,12 @@ Complete!
 
 Verify the install was successful:
 
-[source,bash]
+[source,bash,subs="+macros,+attributes",role=execute]
 ----
 leapp --version
 ----
 
-[source,bash]
+[source,text]
 ----
 # leapp --version
 leapp version 0.15.1

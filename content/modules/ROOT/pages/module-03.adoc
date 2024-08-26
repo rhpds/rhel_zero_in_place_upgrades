@@ -2,19 +2,19 @@ You saw in the last step how Leapp produced an error. In this scenario,
 PAM modules are not in use. It is therefore safe to skip this check. To
 do so, replace the commented line `+# confirm =+` with a true statement.
 
-[source,bash]
+[source,bash,subs="+macros,+attributes",role=execute]
 ----
 sed -i 's/# confirm =/confirm = true/g' /var/log/leapp/answerfile
 ----
 
 Re-run the preupgrade check to verify the change satisfied the result
 
-[source,bash]
+[source,bash,subs="+macros,+attributes",role=execute]
 ----
 leapp preupgrade --target 8.8
 ----
 
-[source,bash]
+[source,text]
 ----
 # leapp preupgrade --target 8.8
 ==> Processing phase `configuration_phase`

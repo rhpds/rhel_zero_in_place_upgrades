@@ -5,14 +5,16 @@ antora:
   dir: www
   modules:
     - name: index
-      label: Module 1
+      label: Installing Leapp
     - name: module-02
-      label: Module 2
+      label: Running the Pre-upgrade Assistant
     - name: module-03
-      label: Module 3
+      label: Fixing inhibited results
     - name: module-04
-      label: Module 4
+      label: Running the Upgrade
 tabs:
-  - name: terminal
+  - name: ">_ root"
     port: 443
-    path: /wetty
+    path: /tty1
+    user: root
+    host: rhel

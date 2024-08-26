@@ -5,12 +5,12 @@ system, assesses upgradability, and generates a pre-upgrade report. On
 your lab system, perform the pre-upgrade test: (This process will take a
 couple minutes.)
 
-[source,bash]
+[source,bash,subs="+macros,+attributes",role=execute]
 ----
 leapp preupgrade --target 8.8
 ----
 
-[source,bash]
+[source,text]
 ----
 # leapp preupgrade --target 8.8
 ==> Processing phase `configuration_phase`
@@ -59,12 +59,12 @@ safely proceed. The preupgrade tool has generated an answerfile in
 `+/var/log/leapp+`. Inside of this file, it has generated a true/false
 question regarding PAM PKCS11 modules:
 
-[source,bash]
+[source,bash,subs="+macros,+attributes",role=execute]
 ----
 cat /var/log/leapp/answerfile
 ----
 
-[source,bash]
+[source,text]
 ----
 # cat /var/log/leapp/answerfile
 [remove_pam_pkcs11_module_check]

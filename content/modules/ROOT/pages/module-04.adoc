@@ -4,12 +4,12 @@ Now that you have verified the RHEL system meets all the expected
 conditions, it is time to kick off the upgrade process: (Note: This
 process will take awhile.)
 
-[source,bash]
+[source,bash,subs="+macros,+attributes",role=execute]
 ----
 leapp upgrade --target 8.8
 ----
 
-[source,bash]
+[source,text]
 ----
 # leapp upgrade --target 8.8
 ==> Processing phase `configuration_phase`
@@ -56,12 +56,16 @@ point. A reboot is required for the RHEL 8-based initial RAM disk image
 (initramfs), upgrades all packages and automatically reboots to the RHEL
 8 system.
 
-____
-*Pro Tip:* You can combine these two steps with the –reboot option
+ProTip: You can combine these two steps with the –reboot option
 `+leapp upgrade --target 8.8 --reboot+`
-____
 
-[source,bash]
+[TIP]
+====
+You can combine these two steps with the –reboot option
+`+leapp upgrade --target 8.8 --reboot+`
+====
+
+[source,bash,subs="+macros,+attributes",role=execute]
 ----
 reboot
 ----
@@ -73,7 +77,7 @@ order to see what the server is during during this process, you will
 need to connect to the virtual machine’s console using the `+virsh+`
 command:
 
-[source,bash]
+[source,bash,subs="+macros,+attributes",role=execute]
 ----
 virsh console rhel07
 ----
@@ -81,7 +85,7 @@ virsh console rhel07
 Once the upgrade has been completed, use `+CTRL + ]+` to disconnect from
 the console and log back in using ssh:
 
-[source,bash]
+[source,bash,subs="+macros,+attributes",role=execute]
 ----
 ssh -i ~/.ssh/id_rsa rhel@rhel07
 ----
@@ -94,14 +98,14 @@ Once that is done, you will be logged into the system’s terminal once
 more. Finally, we will verify the update was successful by looking at
 the release file we referenced earlier in the lab:
 
-[source,bash]
+[source,bash,subs="+macros,+attributes",role=execute]
 ----
 cat /etc/redhat-release
 ----
 
 Note that we are now running the latest version of RHEL 8!
 
-[source,bash]
+[source,text]
 ----
 # cat /etc/redhat-release
 Red Hat Enterprise Linux release 8.8 (Ootpa)
@@ -110,7 +114,7 @@ Red Hat Enterprise Linux release 8.8 (Ootpa)
 OPTIONAL: You may also review the log file if you so choose. The full
 output is available at /var/log/leapp/leapp-upgrade.log
 
-[source,bash]
+[source,bash,subs="+macros,+attributes",role=execute]
 ----
 sudo less /var/log/leapp/leapp-upgrade.log
 ----
