@@ -2,8 +2,10 @@
 
 Built into the leapp tool is a utility that collects data about the
 system, assesses upgradability, and generates a pre-upgrade report. On
-your lab system, perform the pre-upgrade test: (This process will take a
-couple minutes.)
+your lab system, perform the pre-upgrade test. 
+
+NOTE: This process will take a
+couple minutes.
 
 [source,bash,subs="+macros,+attributes",role=execute]
 ----
