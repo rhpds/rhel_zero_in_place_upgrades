@@ -17,4 +17,4 @@ tabs:
     port: 443
     path: /tty1
     user: root
-    host: rhel
+    host: leapp
