@@ -2,6 +2,7 @@ You saw in the last step how Leapp produced an error. In this scenario,
 PAM modules are not in use. It is therefore safe to skip this check. To
 do so, replace the commented line `+# confirm =+` with a true statement.
 
+.Command
 [source,bash,subs="+macros,+attributes",role=execute]
 ----
 sed -i 's/# confirm =/confirm = true/g' /var/log/leapp/answerfile
@@ -9,11 +10,13 @@ sed -i 's/# confirm =/confirm = true/g' /var/log/leapp/answerfile
 
 Re-run the preupgrade check to verify the change satisfied the result
 
+.Command
 [source,bash,subs="+macros,+attributes",role=execute]
 ----
 leapp preupgrade --target 8.8
 ----
 
+.Output
 [source,text]
 ----
 # leapp preupgrade --target 8.8
@@ -36,23 +39,37 @@ leapp preupgrade --target 8.8
 ====> * scan_pkg_manager
         Provides data about package manager (yum/dnf)
 
-... output truncated ...
+<<< OUTPUT ABBRIDGED >>>
 
 ====> * verify_check_results
         Check all generated results messages and notify user about them.
 
-Debug output written to /var/log/leapp/leapp-preupgrade.log
-
 ============================================================
-                           REPORT
+                      REPORT OVERVIEW
 ============================================================
 
-A report has been generated at /var/log/leapp/leapp-report.json
-A report has been generated at /var/log/leapp/leapp-report.txt
+Upgrade has been inhibited due to the following problems:
+    1. Possible problems with remote login using root account
+
+HIGH and MEDIUM severity reports:
+    1. Difference in Python versions and support in RHEL 8
+    2. GRUB2 core will be automatically updated during the upgrade
+    3. Module pam_pkcs11 will be removed from PAM configuration
+
+Reports summary:
+    Errors:                      0
+    Inhibitors:                  1
+    HIGH severity reports:       2
+    MEDIUM severity reports:     1
+    LOW severity reports:        4
+    INFO severity reports:       3
+
+Before continuing, review the full report below for details about discovered problems and possible remediation instructions:
+    A report has been generated at /var/log/leapp/leapp-report.txt
+    A report has been generated at /var/log/leapp/leapp-report.json
 
 ============================================================
-                       END OF REPORT
+                   END OF REPORT OVERVIEW
 ============================================================
-
-Answerfile has been generated at /var/log/leapp/answerfile
 ----
+

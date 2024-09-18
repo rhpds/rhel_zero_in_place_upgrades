@@ -25,68 +25,68 @@ leapp utility is available straight from the Red Hat package repository.
 First, verify the version of Red Hat Enterprise Linux that you have
 installed:
 
+.Command
 [source,bash,subs="+macros,+attributes",role=execute]
 ----
 cat /etc/redhat-release
 ----
 
+.Output
 [source,text]
 ----
-# cat /etc/redhat-release
 Red Hat Enterprise Linux release 7.9 (Maipo)
 ----
 
 First, you need to enable specific rhel-7-server repositories. These have already been enabled for you in this lab environment, but we will use the subscription-manager command to enable them and verify they are active.
 
+TIP: See how you can actually combine these two operations into one!
 
-TIP: See how you can actually
-combine these two operations into one!
-
+.Command
 [source,bash,subs="+macros,+attributes",role=execute]
 ----
 subscription-manager repos --enable rhel-7-server-rpms --enable rhel-7-server-extras-rpms
 ----
 
+.Output
 [source,text]
 ----
-# subscription-manager repos --enable rhel-7-server-rpms --enable rhel-7-server-extras-rpms
 Repository 'rhel-7-server-rpms' is enabled for this system.
 Repository 'rhel-7-server-extras-rpms' is enabled for this system.
 ----
 
 Next, use the DNF package manager to install leapp and its dependencies:
 
+.Command
 [source,bash,subs="+macros,+attributes",role=execute]
 ----
-dnf install -y leapp-upgrade
+yum install -y leapp-upgrade
 ----
 
+.Output
 [source,text]
 ----
-# dnf install -y leapp-upgrade
-# dnf install -y leapp-upgrade
-Red Hat Enterprise Linux 7 Server - Extras (RPMs)                                                                                                                                                      0.0  B/s |   0  B     00:00
-Red Hat Enterprise Linux 7 Server (RPMs)                                                                                                                                                               0.0  B/s |   0  B     00:00
-Dependencies resolved.
+<<< OUTPUT ABBRIDGED >>>
 
-... output truncated ...
+  Verifying  : libcomps-0.1.8-14.el7.x86_64      18/19
+  Verifying  : leapp-deps-0.17.0-2.el7_9.noarch  19/19
 
 Installed:
-  leapp-upgrade-el7toel8-0.18.0-1.el7_9.noarch leapp-deps-0.15.1-1.el7_9.noarch     leapp-0.15.1-1.el7_9.noarch  python2-leapp-0.15.1-1.el7_9.noarch  leapp-upgrade-el7toel8-deps-0.18.0-1.el7_9.noarch python-IPy-0.75-6.el7.noarch
-  setools-libs-3.3.8-4.el7.x86_64              libsemanage-python-2.5-14.el7.x86_64 checkpolicy-2.5-8.el7.x86_64 audit-libs-python-2.8.5-4.el7.x86_64 policycoreutils-python-2.5-34.el7.x86_64
+  leapp-upgrade-el7toel8.noarch 0:0.20.0-9.el7_9
 
+<<< OUTPUT ABBRIDGED >>>
 Complete!
 ----
 
 Verify the install was successful:
 
+.Command
 [source,bash,subs="+macros,+attributes",role=execute]
 ----
 leapp --version
 ----
 
+.Output
 [source,text]
 ----
-# leapp --version
-leapp version 0.15.1
+leapp version 0.17.0
 ----

@@ -2,16 +2,17 @@
 
 Built into the leapp tool is a utility that collects data about the
 system, assesses upgradability, and generates a pre-upgrade report. On
-your lab system, perform the pre-upgrade test. 
+your lab system, perform the pre-upgrade test.
 
-NOTE: This process will take a
-couple minutes.
+NOTE: This process will take a couple minutes.
 
+.Command
 [source,bash,subs="+macros,+attributes",role=execute]
 ----
 leapp preupgrade --target 8.8
 ----
 
+.Output
 [source,text]
 ----
 # leapp preupgrade --target 8.8
@@ -30,45 +31,56 @@ leapp preupgrade --target 8.8
 ====> * scan_pkg_manager
         Provides data about package manager (yum/dnf)
 
-... output truncated ...
+<<< OUTPUT ABBRIDGED >>>
 
-============================================================
-                     UPGRADE INHIBITED
-============================================================
-Upgrade has been inhibited due to the following problems:
-    1. Inhibitor: Missing required answers in the answer file
-Consult the pre-upgrade report for details and possible remediation.
-============================================================
-                     UPGRADE INHIBITED
-============================================================
 Debug output written to /var/log/leapp/leapp-preupgrade.log
 
 ============================================================
-                           REPORT
+                      REPORT OVERVIEW
 ============================================================
-A report has been generated at /var/log/leapp/leapp-report.json
-A report has been generated at /var/log/leapp/leapp-report.txt
+
+Upgrade has been inhibited due to the following problems:
+    1. Possible problems with remote login using root account
+    2. Missing required answers in the answer file
+
+HIGH and MEDIUM severity reports:
+    1. GRUB2 core will be automatically updated during the upgrade
+    2. Difference in Python versions and support in RHEL 8
+
+Reports summary:
+    Errors:                      0
+    Inhibitors:                  2
+    HIGH severity reports:       2
+    MEDIUM severity reports:     0
+    LOW severity reports:        4
+    INFO severity reports:       3
+
+Before continuing, review the full report below for details about discovered problems and possible remediation instructions:
+    A report has been generated at /var/log/leapp/leapp-report.txt
+    A report has been generated at /var/log/leapp/leapp-report.json
 
 ============================================================
-                       END OF REPORT
+                   END OF REPORT OVERVIEW
 ============================================================
-Answerfile has been generated at /var/log/leapp/answerfile
 ----
 
-Notice how the upgrade was "`inhibited`" because the preupgrade
+Notice how the upgrade was "*`inhibited`*" because the preupgrade
 assistant requires your input on one or more issues before it will
 safely proceed. The preupgrade tool has generated an answerfile in
-`+/var/log/leapp+`. Inside of this file, it has generated a true/false
+"*`/var/log/leapp`*".
+
+Inside of this file, it has generated a true/false
 question regarding PAM PKCS11 modules:
 
+.Command
 [source,bash,subs="+macros,+attributes",role=execute]
 ----
 cat /var/log/leapp/answerfile
 ----
 
+.Output
 [source,text]
 ----
-# cat /var/log/leapp/answerfile
 [remove_pam_pkcs11_module_check]
 # Title:              None
 # Reason:             Confirmation
