@@ -59,7 +59,7 @@ Next, use the DNF package manager to install leapp and its dependencies:
 .Command
 [source,bash,subs="+macros,+attributes",role=execute]
 ----
-yum install -y leapp-upgrade
+dnf install -y leapp-upgrade
 ----
 
 .Output
