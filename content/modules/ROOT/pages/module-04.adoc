@@ -24,32 +24,62 @@ leapp upgrade --target 8.8
 ====> * scanmemory
         Scan Memory of the machine.
 
-... output truncated ...
+<<< OUTPUT ABBRIDGED >>>
 
 Complete!
 ====> * add_upgrade_boot_entry
         Add new boot entry for Leapp provided initramfs.
 A reboot is required to continue. Please reboot your system.
 
+
 Debug output written to /var/log/leapp/leapp-upgrade.log
+
 ============================================================
-                           REPORT
+                      REPORT OVERVIEW
 ============================================================
-A report has been generated at /var/log/leapp/leapp-report.json
-A report has been generated at /var/log/leapp/leapp-report.txt
+
+HIGH and MEDIUM severity reports:
+    1. GRUB2 core will be automatically updated during the upgrade
+    2. Difference in Python versions and support in RHEL 8
+    3. Module pam_pkcs11 will be removed from PAM configuration
+
+Reports summary:
+    Errors:                      0
+    Inhibitors:                  0
+    HIGH severity reports:       2
+    MEDIUM severity reports:     1
+    LOW severity reports:        5
+    INFO severity reports:       3
+
+Before continuing, review the full report below for details about discovered problems and possible remediation instructions:
+    A report has been generated at /var/log/leapp/leapp-report.txt
+    A report has been generated at /var/log/leapp/leapp-report.json
+
 ============================================================
-                       END OF REPORT
+                   END OF REPORT OVERVIEW
 ============================================================
+
 Answerfile has been generated at /var/log/leapp/answerfile
+Reboot the system to continue with the upgrade. This might take a while depending on the system configuration.
+Make sure you have console access to view the actual upgrade process.
 ----
 
-The upgrade has only been staged; it has not been completed at this
-point. A reboot is required for the RHEL 8-based initial RAM disk image
-(initramfs), upgrades all packages and automatically reboots to the RHEL
-8 system.
+IMPORTANT: The upgrade has only been staged; it has not been completed at this point.
 
-TIP: You can combine these two steps with the –reboot option
-`*leapp upgrade --target 8.8 --reboot*`
+A reboot is required during which leapp performs several actions inside a temporary environment.
+
+These include:
+
+* Creating a new initramfs image
+* Relabeling SELinux contexts
+* Cleaning up any remaining RHEL 7 packages
+* A final reboot to launch into RHEL 8
+
+If your hypervisor and systems are configured for console access, it is possible to watch this process during the reboot. This option is unavailable in this lab. You will verify the upgrade by viewing the log files after completion.
+
+TIP: You can combine the upgrade and reboot by adding the *-–reboot* option `*leapp upgrade --target 8.8 --reboot*`
+
+Reboot the system now to initiate the final steps.
 
 .Command
 [source,bash,subs="+macros,+attributes",role=execute]
@@ -57,27 +87,12 @@ TIP: You can combine these two steps with the –reboot option
 reboot
 ----
 
-Now, leapp is performing several actions inside a temporary environment.
-This includes creating a new initramfs image, relabeling SELinux
-contexts, and well as cleaning up any remaining RHEL 7 packages. In
-order to see what the server is during during this process, you will
-need to connect to the virtual machine’s console using the `+virsh+`
-command:
+IMPORTANT: This reboot can take up to 25 minutes. The terminal will lose connection with the leapp host leaving a `reconnect` button on the terminal.
 
-.Command
-[source,bash,subs="+macros,+attributes",role=execute]
-----
-virsh console rhel07
-----
+After 15 - 20 minutes have passed, attempt to reconnect the session in by clicking the `reconnect` button periodically until you are reconnected.
 
-Once the upgrade has been completed, use `*CTRL + ]*` to disconnect from
-the console and log back in using ssh:
-
-.Command
-[source,bash,subs="+macros,+attributes",role=execute]
-----
-ssh -i ~/.ssh/id_rsa rhel@rhel07
-----
+.reconnect
+image::exited-zt.png[reconnect]
 
 == Verifying the upgrade
 
@@ -102,14 +117,13 @@ Note that we are now running the latest version of RHEL 8!
 Red Hat Enterprise Linux release 8.8 (Ootpa)
 ----
 
-.Optional
 NOTE: You may also review the log file if you so choose. The full
 output is available at /var/log/leapp/leapp-upgrade.log
 
 .Command
 [source,bash,subs="+macros,+attributes",role=execute]
 ----
-sudo less /var/log/leapp/leapp-upgrade.log
+less /var/log/leapp/leapp-upgrade.log
 ----
 
 There are other methods for upgrading to the latest version of RHEL

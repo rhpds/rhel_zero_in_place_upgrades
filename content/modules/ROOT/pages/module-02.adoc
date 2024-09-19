@@ -40,8 +40,7 @@ Debug output written to /var/log/leapp/leapp-preupgrade.log
 ============================================================
 
 Upgrade has been inhibited due to the following problems:
-    1. Possible problems with remote login using root account
-    2. Missing required answers in the answer file
+    1. Missing required answers in the answer file
 
 HIGH and MEDIUM severity reports:
     1. GRUB2 core will be automatically updated during the upgrade
@@ -49,10 +48,10 @@ HIGH and MEDIUM severity reports:
 
 Reports summary:
     Errors:                      0
-    Inhibitors:                  2
+    Inhibitors:                  1
     HIGH severity reports:       2
     MEDIUM severity reports:     0
-    LOW severity reports:        4
+    LOW severity reports:        5
     INFO severity reports:       3
 
 Before continuing, review the full report below for details about discovered problems and possible remediation instructions:
